@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 // Local Imports
 import 'package:peliculas/src/models/pelicula_model.dart';
 
@@ -28,7 +27,7 @@ class MovieHorizontal extends StatelessWidget {
     return Container(
       height: _screenSize.height * 0.25,
       child: PageView.builder(
-        pageSnapping: false,
+        pageSnapping: true,
         controller: _pageController,
         // children: _tarjetas(context),
         itemCount: peliculas.length,
@@ -39,6 +38,8 @@ class MovieHorizontal extends StatelessWidget {
   }
 
   Widget _tarjeta(BuildContext context, Pelicula pelicula) {
+    final _screenSize = MediaQuery.of(context).size;
+
     pelicula.uniqueId = '${pelicula.id}-poster';
 
     final tarjeta = Container(
@@ -53,7 +54,7 @@ class MovieHorizontal extends StatelessWidget {
                 image: NetworkImage(pelicula.getPosterImg()),
                 placeholder: AssetImage('assets/img/no-image.jpg'),
                 fit: BoxFit.cover,
-                height: 160.0,
+                height: _screenSize.height * 0.20,
               ),
             ),
           ),

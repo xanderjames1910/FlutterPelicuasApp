@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 // Local Imports
 import 'package:peliculas/src/providers/peliculas_providers.dart';
 import 'package:peliculas/src/search/search_delegate.dart';
@@ -14,26 +13,31 @@ class HomePage extends StatelessWidget {
     peliculasProvider.getPopulares();
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Películas en Cine'),
-          backgroundColor: Colors.indigoAccent,
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  showSearch(context: context, delegate: DataSearch());
-                })
-          ],
-        ),
-        body: Container(
+      appBar: AppBar(
+        title: Text('Películas en Cine'),
+        backgroundColor: Colors.indigoAccent,
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(context: context, delegate: DataSearch());
+              })
+        ],
+      ),
+      body: Container(
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
+            children: <Widget>[
+              SizedBox(height: 10),
               _swiperTarjetas(),
+              SizedBox(height: 10),
               _footer(context),
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget _swiperTarjetas() {
