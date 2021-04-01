@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 // Local Imports
 import 'package:peliculas/src/models/actores_model.dart';
 import 'package:peliculas/src/models/pelicula_model.dart';
@@ -76,7 +75,7 @@ class PeliculaDetalle extends StatelessWidget {
                   Text(
                     pelicula.title,
                     style: Theme.of(context).textTheme.headline6,
-                    overflow: TextOverflow.ellipsis,
+                    overflow: TextOverflow.clip,
                   ),
                   Text(
                     pelicula.originalTitle,
