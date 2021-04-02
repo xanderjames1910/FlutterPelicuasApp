@@ -1,3 +1,5 @@
+import 'package:animate_do/animate_do.dart';
+import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:flutter/material.dart';
 // Local Imports
 import 'package:peliculas/src/models/actores_model.dart';
@@ -10,37 +12,54 @@ class PeliculaDetalle extends StatelessWidget {
     final Pelicula pelicula = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-        body: CustomScrollView(
-      slivers: <Widget>[
-        _crearAppbar(pelicula),
-        SliverList(
-            delegate: SliverChildListDelegate([
-          SizedBox(
-            height: 10.0,
-          ),
-          _posterTitulo(context, pelicula),
-          _descripcion(pelicula),
-          _descripcion(pelicula),
-          _descripcion(pelicula),
-          _descripcion(pelicula),
-          _crearCasting(pelicula),
-        ]))
-      ],
-    ));
+      body: ColorfulSafeArea(
+        color: Colors.white.withOpacity(0.4),
+        overflowRules: OverflowRules.all(true),
+        child: CustomScrollView(
+          slivers: <Widget>[
+            _crearAppbar(pelicula),
+            SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  SizedBox(height: 10.0),
+                  _posterTitulo(context, pelicula),
+                  _descripcion(pelicula),
+                  _descripcion(pelicula),
+                  _descripcion(pelicula),
+                  _descripcion(pelicula),
+                  _crearCasting(pelicula),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _crearAppbar(Pelicula pelicula) {
     return SliverAppBar(
       elevation: 2.0,
+      centerTitle: true,
       backgroundColor: Colors.indigoAccent,
       expandedHeight: 200.0,
       floating: false,
       pinned: true,
       flexibleSpace: FlexibleSpaceBar(
+        // titlePadding: EdgeInsets.only(left: 20.0),
         centerTitle: true,
-        title: Text(
-          pelicula.title,
-          style: TextStyle(color: Colors.white, fontSize: 16.0),
+        title: FadeIn(
+          delay: Duration(milliseconds: 300),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: Text(
+              pelicula.title,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: Colors.white, fontSize: 16.0),
+            ),
+          ),
         ),
         background: FadeInImage(
           placeholder: AssetImage('assets/img/loading.gif'),
@@ -72,25 +91,37 @@ class PeliculaDetalle extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    pelicula.title,
-                    style: Theme.of(context).textTheme.headline6,
-                    overflow: TextOverflow.clip,
+                  FadeIn(
+                    delay: Duration(milliseconds: 300),
+                    child: Text(
+                      pelicula.title,
+                      style: Theme.of(context).textTheme.headline6,
+                      overflow: TextOverflow.clip,
+                    ),
                   ),
-                  Text(
-                    pelicula.originalTitle,
-                    style: Theme.of(context).textTheme.subtitle1,
-                    overflow: TextOverflow.ellipsis,
+                  SizedBox(height: 5.0),
+                  FadeIn(
+                    delay: Duration(milliseconds: 400),
+                    child: Text(
+                      pelicula.originalTitle,
+                      style: Theme.of(context).textTheme.subtitle1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                  Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Icon(Icons.star_border),
-                        Text(
-                          pelicula.voteAverage.toString(),
-                          style: Theme.of(context).textTheme.subtitle1,
-                        ),
-                      ])
+                  SizedBox(height: 5.0),
+                  FadeIn(
+                    delay: Duration(milliseconds: 500),
+                    child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.star_border),
+                          SizedBox(width: 5.0),
+                          Text(
+                            pelicula.voteAverage.toString(),
+                            style: Theme.of(context).textTheme.subtitle1,
+                          ),
+                        ]),
+                  )
                 ],
               ),
             )
@@ -100,10 +131,13 @@ class PeliculaDetalle extends StatelessWidget {
 
   Widget _descripcion(Pelicula pelicula) {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-        child: Text(
-          pelicula.overview,
-          textAlign: TextAlign.justify,
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+        child: FadeIn(
+          delay: Duration(milliseconds: 600),
+          child: Text(
+            pelicula.overview,
+            // textAlign: TextAlign.justify,
+          ),
         ));
   }
 
@@ -127,11 +161,11 @@ class PeliculaDetalle extends StatelessWidget {
   Widget _crearActoresPageView(List<Actor> actores) {
     return SizedBox(
       height: 200.0,
-      child: PageView.builder(
-        pageSnapping: false,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
         controller: PageController(
           viewportFraction: 0.3,
-          initialPage: 1,
+          // initialPage: 1,
         ),
         itemCount: actores.length,
         itemBuilder: (context, i) => _actorTarjeta(actores[i]),
@@ -141,6 +175,7 @@ class PeliculaDetalle extends StatelessWidget {
 
   Widget _actorTarjeta(Actor actor) {
     return Container(
+      margin: EdgeInsets.only(left: 10.0),
       child: Column(
         children: <Widget>[
           ClipRRect(
@@ -152,9 +187,15 @@ class PeliculaDetalle extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          Text(
-            actor.name,
-            overflow: TextOverflow.ellipsis,
+          SizedBox(height: 5.0),
+          Container(
+            width: 110.0,
+            child: Text(
+              actor.name,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),

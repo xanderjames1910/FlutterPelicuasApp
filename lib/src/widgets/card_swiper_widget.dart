@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:peliculas/src/models/pelicula_model.dart';
 
@@ -44,12 +43,5 @@ class CardSwiper extends StatelessWidget {
         // control: new SwiperControl(),
       ),
     );
-
-    // return GestureDetector(
-    //   child: tarjetaPoster,
-    //   onTap: () {
-    //     Navigator.pushNamed(context, 'detalle', arguments: peliculas);
-    //   },
-    // );
   }
 }
